@@ -1,0 +1,24 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+  gap: 16px;
+}
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 980px;
+}
+.title { font-size: 1.6rem; margin: 0; color: var(--accent); }
+.main { display: flex; gap: 20px; width: 100%; max-width: 980px; }
+.left { flex: 1; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.right { width: 260px; }
+.modalContent { text-align: center; }
+
+@media (max-width: 720px) {
+  .main { flex-direction: column; }
+  .right { width: 100%; }
+}

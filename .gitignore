@@ -1,0 +1,9 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Production builds
+/dist
+/build
+/out

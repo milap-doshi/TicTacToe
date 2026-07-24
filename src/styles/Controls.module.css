@@ -1,0 +1,3 @@
+.controls { display:flex; flex-direction:column; gap:8px; }
+.primary { background: linear-gradient(90deg,var(--accent),var(--accent-2)); color: #08101a; border: none; padding: 10px; border-radius: 8px; font-weight:600; }
+.controls button { padding: 8px; border-radius: 8px; background: rgba(255,255,255,0.02); color: var(--text); border: 1px solid rgba(255,255,255,0.03); }

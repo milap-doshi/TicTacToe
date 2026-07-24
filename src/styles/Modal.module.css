@@ -1,0 +1,4 @@
+.backdrop { position:fixed; inset:0; background: rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; }
+.modal { background: var(--panel); padding: 18px; border-radius: 12px; min-width: 280px; }
+.close { position:absolute; right:12px; top:12px; background:transparent; border:none; color:var(--muted); }
+.body { padding-top:8px; }

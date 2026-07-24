@@ -1,0 +1,12 @@
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, min(96px, 28vw));
+  gap: 10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  padding: 12px;
+  border-radius: 12px;
+}
+
+@media (max-width: 720px) {
+  .board { gap: 8px; grid-template-columns: repeat(3, min(72px, 30vw)); }
+}
