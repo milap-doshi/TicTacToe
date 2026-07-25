@@ -27,6 +27,11 @@ export default function runConfetti() {
     }
 
     let t0 = null
+    let rafId = null
+    function cleanup() {
+      if (rafId) cancelAnimationFrame(rafId)
+      if (canvas.parentNode) canvas.parentNode.removeChild(canvas)
+    }
     function frame(ts) {
       if (!t0) t0 = ts
       const dt = (ts - t0) / 1000
@@ -44,12 +49,12 @@ export default function runConfetti() {
         ctx.restore()
       })
       if (dt < 2.2) {
-        requestAnimationFrame(frame)
+        rafId = requestAnimationFrame(frame)
       } else {
-        canvas.remove()
+        cleanup()
       }
     }
-    requestAnimationFrame(frame)
+    rafId = requestAnimationFrame(frame)
   } catch (e) {
     // silent failure on environments without DOM
   }

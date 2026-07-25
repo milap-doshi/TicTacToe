@@ -44,7 +44,7 @@ export default function App() {
         <aside className={styles.right}>
           <Scoreboard scores={game.scores} />
           <Controls
-            onNewGame={game.resetBoard}
+            onNewGame={game.nextGame}
             onUndo={game.undo}
             onResetScores={game.resetScores}
             soundEnabled={game.soundEnabled}

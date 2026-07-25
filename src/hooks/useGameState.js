@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useState, useRef } from 'react'
 import { checkWinner, isDraw } from '../utils/gameLogic'
 import runConfetti from '../utils/confetti'
 
@@ -9,6 +9,7 @@ export default function useGameState() {
   const [currentMove, setCurrentMove] = useState(0)
   const [scores, setScores] = useState({ X: 0, O: 0, draws: 0, total: 0 })
   const [soundEnabled, setSoundEnabled] = useState(false)
+  const [startingPlayer, setStartingPlayer] = useState('X')
 
   const previewIndexRef = useRef(null)
   const [previewIndex, setPreviewIndex] = useState(null)
@@ -17,9 +18,10 @@ export default function useGameState() {
   const currentBoard = history[currentMove]
 
   const currentPlayer = useMemo(() => {
-    const moves = history[currentMove].filter(Boolean).length
-    return moves % 2 === 0 ? 'X' : 'O'
-  }, [history, currentMove])
+    const moves = currentBoard.filter(Boolean).length
+    if (moves % 2 === 0) return startingPlayer
+    return startingPlayer === 'X' ? 'O' : 'X'
+  }, [currentBoard, startingPlayer])
 
   const { winner, line } = useMemo(() => checkWinner(currentBoard), [currentBoard])
   const draw = useMemo(() => isDraw(currentBoard), [currentBoard])
@@ -35,7 +37,7 @@ export default function useGameState() {
       const g = ctx.createGain()
       o.type = 'sine'
       o.frequency.value = 600
-      g.gain.value = 0.02
+      g.gain.value = 0.08
       o.connect(g)
       g.connect(ctx.destination)
       o.start()
@@ -51,7 +53,7 @@ export default function useGameState() {
       const g = ctx.createGain()
       o.type = 'sawtooth'
       o.frequency.value = 220
-      g.gain.value = 0.04
+      g.gain.value = 0.12
       o.connect(g)
       g.connect(ctx.destination)
       o.start()
@@ -85,27 +87,33 @@ export default function useGameState() {
     setScores({ X: 0, O: 0, draws: 0, total: 0 })
   }, [])
 
+  const nextGame = useCallback(() => {
+    setHistory([emptyBoard()])
+    setCurrentMove(0)
+    setStartingPlayer(prev => (prev === 'X' ? 'O' : 'X'))
+  }, [])
+
   const jumpTo = useCallback((moveIndex) => {
     setCurrentMove(moveIndex)
   }, [])
 
   // watch for a winner/draw and update scores automatically
   const finishedRef = useRef({ lastProcessed: -1 })
-  if ((winner || draw)) {
+
+  useEffect(() => {
+    if (!winner && !draw) return
     const last = history.length - 1
-    // only process the final move once
-    if (currentMove === last && finishedRef.current.lastProcessed !== last) {
-      finishedRef.current.lastProcessed = last
-      if (winner) {
-        setScores(s => ({ ...s, [winner]: s[winner] + 1, total: s.total + 1 }))
-        playWin()
-        // run confetti visual effect
-        try { runConfetti() } catch (_) {}
-      } else if (draw) {
-        setScores(s => ({ ...s, draws: s.draws + 1, total: s.total + 1 }))
-      }
+    if (currentMove !== last || finishedRef.current.lastProcessed === last) return
+
+    finishedRef.current.lastProcessed = last
+    if (winner) {
+      setScores(s => ({ ...s, [winner]: s[winner] + 1, total: s.total + 1 }))
+      playWin()
+      try { runConfetti() } catch (_) {}
+    } else if (draw) {
+      setScores(s => ({ ...s, draws: s.draws + 1, total: s.total + 1 }))
     }
-  }
+  }, [currentMove, draw, history.length, playWin, winner])
 
   return {
     history,

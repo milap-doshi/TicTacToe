@@ -1,4 +1,42 @@
-.history { margin-top: 12px; width: 100%; text-align: center; }
-.history ul { list-style: none; padding: 0; display:flex; gap:6px; justify-content:center; flex-wrap:wrap }
-.history button { padding:6px 8px; border-radius:6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.03); color: aliceblue;}
-.active { outline: 2px solid var(--accent); }
+.history {
+  margin-top: 12px;
+  width: 100%;
+  text-align: center;
+  background: rgba(255,255,255,0.04);
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.heading {
+  margin: 0 0 10px;
+  color: var(--text);
+  font-size: 1rem;
+}
+.list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0;
+}
+.item {
+  display: inline-block;
+}
+.moveButton {
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text);
+  transition: transform 120ms ease, background 120ms ease, box-shadow 120ms ease;
+}
+.moveButton:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.12);
+}
+.active {
+  outline: 2px solid var(--accent);
+  box-shadow: 0 0 0 6px rgba(124, 92, 255, 0.14);
+}

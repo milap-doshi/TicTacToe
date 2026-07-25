@@ -5,11 +5,14 @@ import styles from '../styles/MoveHistory.module.css'
 export default function MoveHistory({ history, jumpTo, currentMove }) {
   return (
     <div className={styles.history}>
-      <h4>Moves</h4>
-      <ul>
+      <h4 className={styles.heading}>Moves</h4>
+      <ul className={styles.list}>
         {history.map((board, idx) => (
-          <li key={idx}>
-            <button className={idx === currentMove ? styles.active : ''} onClick={() => jumpTo(idx)}>
+          <li key={idx} className={styles.item}>
+            <button
+              className={`${styles.moveButton} ${idx === currentMove ? styles.active : ''}`}
+              onClick={() => jumpTo(idx)}
+            >
               {idx === 0 ? 'Start' : `Move ${idx}`}
             </button>
           </li>
